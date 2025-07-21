@@ -71,9 +71,9 @@
 					</div>
 					{%else%}
 					<div class="widget-header">
-						<small class="title text-muted">{{user.first_name}}</small>
+						<small class="title text-muted">Welcome!! {{user.first_name}}</small>
 						<div> 
-							<a href="#">Dashboard</a> <span class="dark-transp"> | </span>
+							<a href="{% url 'dashboard' %}">Dashboard</a> <span class="dark-transp"> | </span>
 							<a href="{% url 'logout' %}"> logout</a>
 						</div>
 					</div>

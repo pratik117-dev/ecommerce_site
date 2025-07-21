@@ -148,6 +148,6 @@ MESSAGE_TAGS = {
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'pratikpoudel1110@gmail.com'
-EMAIL_HOST_PASSWORD = 'python1121@#'
+EMAIL_HOST_USER = 'ppoudel1011@gmail.com'
+EMAIL_HOST_PASSWORD = 'mevi jkzk bfxx nnye'
 EMAIL_USE_TLS = True
