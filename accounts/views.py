@@ -13,6 +13,9 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
 
+from cart.views import _cart_id
+from cart.models import Cart, CartItems
+
 # Create your views here.
 def register(request):
     if request.method == 'POST':
@@ -59,8 +62,44 @@ def login(request):
         user = auth.authenticate(email=email, password=password)
 
         if user is not None:
+            try:
+                cart = Cart.objects.get(cart_id = _cart_id(request))
+                is_cart_item_exists = CartItems.objects.filter(cart= cart).exists()
+                if is_cart_item_exists:
+                    cart_item = CartItems.objects.filter(cart=cart)
+
+                    #getting the product variation by cart id
+                    product_variation = []
+                    for item in cart_item:
+                        variation = item.variations.all()
+                        product_variation.append(list(variation))
+
+                    # Get the cart item from the user to access his product variation 
+                    cart_item = CartItems.objects.filter( user=user)
+                    ex_var_list = []
+                    id = []
+                    for item in cart_item:
+                        existing_variation = item.variations.all()
+                        ex_var_list.append(list(existing_variation))
+                        id.append(item.id)
+
+                    for pr in product_variation:
+                        if pr in ex_var_list:
+                            index = ex_var_list.index(pr)
+                            item_id = id[index]
+                            item= CartItems.objects.get(id = item_id )
+                            item.quantity += 1
+                            item.user = user
+                            item.save()
+                        else:
+                            cart_item= CartItems.objects.filter(cart = cart)
+                            for item in cart_item:
+                                item.user = user
+                                item.save()
+            except:
+                pass
             auth.login(request, user)
-            # messages.success(request, "you are now logged in. ")
+            messages.success(request, "you are now logged in. ")
             return redirect('dashboard')
         else:
             messages.error(request, 'Invalid login credentials ')
