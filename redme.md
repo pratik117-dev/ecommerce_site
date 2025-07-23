@@ -8,3 +8,7 @@ winpty python manage.py createsuperuser
 email = developer.pratik@gmail.com
 username = pratik 
 pass = 1qazmlp0
+
+
+pratikpoudel1110@gmail.com
+rahul@123
